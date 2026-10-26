@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إلى أغلى حد في حياتي ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
+
+:root {
+  --pink: #ff4f91;
+  --rose: #ffb6c9;
+  --dark: #762b50;
+  --cream: #fff8f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Cairo', sans-serif;
+  background:
+    radial-gradient(circle at 15% 15%, #ffe1ed 0, transparent 35%),
+    radial-gradient(circle at 85% 80%, #ffc8d8 0, transparent 35%),
+    linear-gradient(145deg, #fff5f8, #ffe3eb, #fff0f4);
+  color: var(--dark);
+}
+
+.scene {
+  min-height: 100vh;
+  padding: 35px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  isolation: isolate;
+}
+
+.glow {
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  background: #ff91b7;
+  opacity: .13;
+  filter: blur(90px);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.glow.one { top: 0; right: -100px; }
+.glow.two { bottom: 0; left: -100px; }
+
+.heading {
+  text-align: center;
+  margin-bottom: 25px;
+  animation: arrive 1.2s ease both;
+}
+
+.heading .tiny {
+  letter-spacing: 4px;
+  font-size: 11px;
+  color: #b85c81;
+}
+
+.heading h1 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(30px, 7vw, 48px);
+  margin: 8px 0;
+  color: #b73569;
+  text-shadow: 0 3px 15px #ffb6ce88;
+}
+
+.heading p {
+  font-size: 13px;
+  color: #a55b79;
+}
+
+.envelope-area {
+  width: min(100%, 390px);
+  perspective: 1200px;
+  position: relative;
+  margin: 12px auto 25px;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 255px;
+  background: #f7a4bd;
+  border-radius: 7px;
+  box-shadow: 0 25px 55px #a23e6440;
+  cursor: pointer;
+  transition: transform .5s;
+  transform-style: preserve-3d;
+}
+
+.envelope:hover {
+  transform: translateY(-5px);
+}
+
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #f6b4c8, #f18cae);
+}
+
+.letter {
+  position: absolute;
+  width: 88%;
+  height: 225px;
+  left: 6%;
+  top: 12px;
+  background:
+    radial-gradient(ellipse at top right, #fff0f3, transparent 60%),
+    var(--cream);
+  border: 1px solid #f4c8d3;
+  border-radius: 5px;
+  padding: 25px 17px;
+  text-align: center;
+  box-shadow: 0 4px 12px #8d38501c;
+  overflow: hidden;
+  transition: transform 1s cubic-bezier(.2,.8,.2,1),
+              height .8s, top .8s;
+  z-index: 2;
+}
+
+.letter h2 {
+  font-family: 'Amiri', serif;
+  color: #c43b70;
+  font-size: 28px;
+  margin: 3px 0 12px;
+}
+
+.letter p {
+  line-height: 2;
+  font-size: 14px;
+  margin: 0;
+}
+
+.letter .signature {
+  font-family: 'Amiri', serif;
+  font-size: 21px;
+  margin-top: 10px;
+  color: #dc4e83;
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 50% solid transparent;
+  border-right: 50% solid transparent;
+  border-top: 150px solid #f9c3d2;
+  filter: drop-shadow(0 4px 3px #9c43602b);
+  transform-origin: top center;
+  transition: transform .8s ease, opacity .3s;
+  z-index: 5;
+}
+
+/* المثلث الأمامي للجواب */
+.pocket {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(140deg, #ffb8cb, #f48eae);
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+  border-radius: 0 0 7px 7px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.seal {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e94e82, #c62c66);
+  color: white;
+  font-size: 25px;
+  box-shadow: 0 5px 14px #9b244c4d;
+  transition: opacity .4s, transform .4s;
+  pointer-events: none;
+}
+
+.envelope.open {
+  background: transparent;
+  box-shadow: none;
+  margin-bottom: 145px;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  opacity: 0;
+}
+
+.envelope.open .seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.envelope.open .letter {
+  height: auto;
+  min-height: 340px;
+  top: -150px;
+  transform: translateY(-25px);
+  overflow: visible;
+  padding: 28px 19px;
+}
+
+.envelope.open .pocket {
+  opacity: .25;
+}
+
+.envelope.open .envelope-back {
+  opacity: .25;
+}
+
+.hint {
+  text-align: center;
+  color: #ad5778;
+  font-size: 13px;
+  animation: pulse 1.8s infinite;
+  margin-top: 8px;
+}
+
+.hint span {
+  color: var(--pink);
+  font-size: 18px;
+}
+
+.love-link {
+  display: block;
+  width: min(100%, 340px);
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffedf3, #fff9fb);
+  border: 1px solid #ffbad0;
+  box-shadow: 0 10px 28px #d64a7b1a;
+  text-align: center;
+  text-decoration: none;
+  color: #ed4086;
+  font-weight: 800;
+  font-size: 16px;
+  transition: .3s;
+  animation: arrive 1.5s ease both;
+}
+
+.love-link:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 30px #d64a7b30;
+  background: white;
+}
+
+.love-link small {
+  display: block;
+  color: #b67b91;
+  font-weight: 400;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.footer {
+  font-family: 'Amiri', serif;
+  text-align: center;
+  color: #bd6b89;
+  margin-top: 25px;
+  font-size: 19px;
+}
+
+.heart {
+  position: fixed;
+  bottom: -40px;
+  pointer-events: none;
+  z-index: -1;
+  animation: floatUp linear forwards;
+  opacity: .75;
+}
+
+.petal {
+  position: fixed;
+  top: -30px;
+  pointer-events: none;
+  z-index: -1;
+  animation: fall linear forwards;
+}
+
+.burst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10;
+  animation: burst 1.2s ease-out forwards;
+}
+
+@keyframes floatUp {
+  to { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(600deg); opacity: .1; }
+}
+
+@keyframes pulse {
+  50% { opacity: .55; }
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes burst {
+  to {
+    transform: translate(var(--x), var(--y)) scale(.2) rotate(240deg);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .envelope { height: 230px; }
+  .letter { height: 205px; padding: 18px 12px; }
+  .letter h2 { font-size: 25px; }
+}
+</style>
+</head>
+
+<body>
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<main class="scene">
+  <header class="heading">
+    <div class="tiny">A LITTLE PIECE OF MY HEART</div>
+    <h1>إلى أغلى حد في حياتي ❤️</h1>
+    <p>في كلام جوا قلبي.. مستنيكي تفتحيه 🌷</p>
+  </header>
+
+  <div class="envelope-area">
+    <div class="envelope" id="envelope"
+         role="button" tabindex="0"
+         aria-label="افتحي جواب الحب">
+      <div class="envelope-back"></div>
+
+      <article class="letter">
+        <div style="font-size:25px">💌</div>
+        <h2>بحبك يا أغلى حد في حياتي</h2>
+
+        <p>
+          يمكن الكلام ميقدرش يوصف كل اللي جوايا،
+          بس انتي ليكي مكان في قلبي محدش يقدر ياخده. ❤️
+          <br>
+          وجودك لوحده بيخلّي الأيام أحلى،
+          وضحكتك عندي بالدنيا وما فيها.
+          <br>
+          <strong>ربنا يخليكي ليا، ويفضل قلبك مبسوط دايمًا. 🌹</strong>
+        </p>
+
+        <div class="signature">من قلبي لقلبك.. بحبك 💗</div>
+      </article>
+
+      <div class="flap"></div>
+      <div class="pocket"></div>
+      <div class="seal">♥</div>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">
+    <span>♡</span> دوسي على الجواب وافتحي رسالتك <span>♡</span>
+  </div>
+
+  <div style="height:28px"></div>
+
+  <a class="love-link"
+     href="https://youtu.be/OgVJKSOmp5Q?si=eKBHSHHc1X9LJc9U"
+     target="_blank"
+     rel="noopener noreferrer">
+    عايزة تعرفي قد إيه شايل حبي ليكي؟ 💗
+    <small>اضغطي هنا.. يمكن الأغنية تقول اللي مش عارف أقوله 🎶</small>
+  </a>
+
+  <div class="footer">إنتي حكاية قلبي الحلوة 🌹</div>
+</main>
+
+<script>
+const envelope = document.getElementById('envelope');
+const hint = document.getElementById('hint');
+let isOpen = false;
+
+function makeBurst() {
+  const rect = envelope.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  for (let i = 0; i < 32; i++) {
+    const item = document.createElement('span');
+    item.className = 'burst';
+    item.textContent = ['💗', '💕', '🌸', '❤️', '✨'][i % 5];
+    item.style.left = centerX + 'px';
+    item.style.top = centerY + 'px';
+    item.style.fontSize = (14 + Math.random() * 15) + 'px';
+    item.style.setProperty('--x', (Math.random() * 360 - 180) + 'px');
+    item.style.setProperty('--y', (Math.random() * 320 - 160) + 'px');
+    document.body.appendChild(item);
+    setTimeout(() => item.remove(), 1300);
+  }
+}
+
+function toggleLetter() {
+  isOpen = !isOpen;
+  envelope.classList.toggle('open', isOpen);
+
+  if (isOpen) {
+    makeBurst();
+    hint.innerHTML = '<span>💖</span> الجواب اتفتح مخصوص عشانك <span>💖</span>';
+  } else {
+    hint.innerHTML = '<span>♡</span> دوسي على الجواب وافتحي رسالتك <span>♡</span>';
+  }
+}
+
+envelope.addEventListener('click', toggleLetter);
+envelope.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    toggleLetter();
+  }
+});
+
+// قلوب طايرة
+function createHeart() {
+  const heart = document.createElement('span');
+  heart.className = 'heart';
+  heart.textContent = ['♥', '♡', '💗', '💕'][Math.floor(Math.random() * 4)];
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.fontSize = (12 + Math.random() * 23) + 'px';
+  heart.style.animationDuration = (7 + Math.random() * 8) + 's';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 16000);
+}
+
+// بتلات ورد
+function createPetal() {
+  const petal = document.createElement('span');
+  petal.className = 'petal';
+  petal.textContent = ['🌸', '🌹', '💮'][Math.floor(Math.random() * 3)];
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.fontSize = (10 + Math.random() * 14) + 'px';
+  petal.style.animationDuration = (8 + Math.random() * 9) + 's';
+  document.body.appendChild(petal);
+  setTimeout(() => petal.remove(), 18000);
+}
+
+setInterval(createHeart, 650);
+setInterval(createPetal, 1900);
+</script>
+</body>
+</html>
